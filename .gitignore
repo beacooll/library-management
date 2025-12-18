@@ -19,6 +19,7 @@ target/
 *.iml
 *.ipr
 
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -31,3 +32,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### sql
+/mysql-data/
+/mysql.pid
+/mysql.sock
+/mysql.sock.lock
+
