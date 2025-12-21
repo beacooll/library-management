@@ -1,5 +1,6 @@
 package com.example.library.entity;
 
+import com.example.library.entity.LoanStatus;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -56,6 +57,3 @@ public class Loan {
     public void setStatus(LoanStatus status) { this.status = status; }
 }
 
-enum LoanStatus {
-    ACTIVE, RETURNED, OVERDUE
-}

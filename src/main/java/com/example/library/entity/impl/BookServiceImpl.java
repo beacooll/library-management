@@ -1,6 +1,13 @@
 package com.example.library.service.impl;
+
 import com.example.library.entity.Book;
 import com.example.library.repository.BookRepository;
+import com.example.library.dto.CreateBookDTO;
+import com.example.library.dto.UserDTO;
+import com.example.library.dto.BookDTO;
+import com.example.library.entity.User;
+import com.example.library.entity.Author;
+import com.example.library.entity.Category;
 import com.example.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,18 +45,8 @@ public class BookServiceImpl implements BookService {
     public List<Book> findByAuthorId(Long authorId) {
         return bookRepository.findByAuthorId(authorId);
     }
+  
 
-    private UserDTO convertToDTO(User user) {
-        UserDTO dto = new UserDTO();
-        dto.setId(user.getId());
-        dto.setEmail(user.getEmail());
-        dto.setFirstName(user.getFirstName());
-        dto.setLastName(user.getLastName());
-        dto.setCreatedAt(user.getCreatedAt());
-        return dto;
-    }
-    
-    
     @Override
     public List<Book> findAvailableBooks() {
         return bookRepository.findByAvailableCopiesGreaterThan(0);
@@ -73,14 +70,19 @@ public class BookServiceImpl implements BookService {
         book.setCategory(category);
         return save(book);
     }
+    @Override
+    @Transactional
+    public Book updateBook(Long id, CreateBookDTO dto, Author author, Category category) {
+        Book existingBook = bookRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Book not found with id: " + id));
 
-    public List<Book> findAvailableBooks() {
-        return bookRepository.findByAvailableCopiesGreaterThan(0);
-    }
-    public Optional<Book> findByIsbn(String isbn) {
-        return bookRepository.findByIsbn(isbn);
-    }
-    public List<Book> findOverdueBooks() {
-        return bookRepository.findOverdueBooks();
+        existingBook.setTitle(dto.getTitle());
+        existingBook.setIsbn(dto.getIsbn());
+        existingBook.setPublicationDate(dto.getPublicationDate());
+        existingBook.setAvailableCopies(dto.getAvailableCopies());
+        existingBook.setAuthor(author);
+        existingBook.setCategory(category);
+
+        return bookRepository.save(existingBook);
     }
 }

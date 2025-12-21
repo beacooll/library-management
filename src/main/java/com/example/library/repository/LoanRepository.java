@@ -1,4 +1,5 @@
 package com.example.library.repository;
+
 import com.example.library.entity.Loan;
 import com.example.library.entity.LoanStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface LoanRepository extends JpaRepository<Loan, Long> {
@@ -23,5 +25,5 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
     List<Loan> findByStatus(LoanStatus status);
 
     @Query("SELECT l FROM Loan l WHERE l.book.id = :bookId AND l.user.id = :userId AND l.status = 'ACTIVE'")
-    Optional<Loan> findActiveLoanByBookAndUser(@Param("bookId") Long bookId, @Param("userId"), Long userId);
+    Optional<Loan> findActiveLoanByBookAndUser(@Param("bookId") Long bookId, @Param("userId") Long userId);
 }

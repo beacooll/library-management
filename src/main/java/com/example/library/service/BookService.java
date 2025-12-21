@@ -1,61 +1,22 @@
-package com.example.library.entity;
+package com.example.library.service;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import com.example.library.entity.Book;
+import com.example.library.entity.Author;
+import com.example.library.entity.Category;
+import com.example.library.dto.CreateBookDTO;
+import java.util.List;
+import java.util.Optional;
 
-@Entity
-@Table(name = "loans")
-public class Loan {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id", nullable = false)
-    private Book book;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @Column(name = "loan_date", nullable = false)
-    private LocalDateTime loanDate = LocalDateTime.now();
-
-    @Column(name = "due_date", nullable = false)
-    private LocalDateTime dueDate;
-
-    @Column(name = "return_date")
-    private LocalDateTime returnDate;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private LoanStatus status = LoanStatus.ACTIVE;
-
-    public Loan() {}
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public Book getBook() { return book; }
-    public void setBook(Book book) { this.book = book; }
-
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
-
-    public LocalDateTime getLoanDate() { return loanDate; }
-    public void setLoanDate(LocalDateTime loanDate) { this.loanDate = loanDate; }
-
-    public LocalDateTime getDueDate() { return dueDate; }
-    public void setDueDate(LocalDateTime dueDate) { this.dueDate = dueDate; }
-
-    public LocalDateTime getReturnDate() { return returnDate; }
-    public void setReturnDate(LocalDateTime returnDate) { this.returnDate = returnDate; }
-
-    public LoanStatus getStatus() { return status; }
-    public void setStatus(LoanStatus status) { this.status = status; }
-}
-
-enum LoanStatus {
-    ACTIVE, RETURNED, OVERDUE
+public interface BookService {
+    List<Book> findAll();
+    Optional<Book> findById(Long id);
+    Book save(Book book);
+    void deleteById(Long id);
+    List<Book> findByTitleContaining(String title);
+    List<Book> findByAuthorId(Long authorId);
+    List<Book> findAvailableBooks();
+    Optional<Book> findByIsbn(String isbn);
+    public List<Book> findOverdueBooks();
+    public Book createBookWithAuthorAndCategory(CreateBookDTO dto, Author author, Category category);
+    public Book updateBook(Long id, CreateBookDTO dto, Author author, Category category);
 }

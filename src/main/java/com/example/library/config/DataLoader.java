@@ -1,4 +1,5 @@
 package com.example.library.config;
+
 import com.example.library.entity.*;
 import com.example.library.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class DataLoader implements CommandLineRunner {
         tolstoy.setBirthDate(LocalDate.of(1828, 9, 9));
         tolstoy.setBiography("Русский писатель и мыслитель");
 
-        Spring Data JPA Reference
+
         Author pushkin = new Author("Александр", "Пушкин");
         pushkin.setBirthDate(LocalDate.of(1799, 6, 6));
         pushkin.setBiography("Русский поэт, драматург и прозаик");
