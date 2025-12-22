@@ -26,6 +26,9 @@ public class User {
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Column(name = "role")
+    private String role;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Loan> loans;
 
@@ -51,4 +54,7 @@ public class User {
 
     public List<Loan> getLoans() { return loans; }
     public void setLoans(List<Loan> loans) { this.loans = loans; }
+
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role;}
 }

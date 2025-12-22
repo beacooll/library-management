@@ -7,9 +7,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Component
 public class DataLoader implements CommandLineRunner {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private AuthorRepository authorRepository;
     @Autowired
@@ -53,20 +56,26 @@ public class DataLoader implements CommandLineRunner {
         bookRepository.save(warAndPeace);
         bookRepository.save(eugeneOnegin);
         
+
+        
+
         User admin = new User();
         admin.setEmail("admin@library.com");
-        admin.setPassword("admin123");
+        admin.setPassword(passwordEncoder.encode("admin123"));
         admin.setFirstName("Администратор");
         admin.setLastName("Системы");
+        admin.setRole("ADMIN");
         admin.setCreatedAt(LocalDateTime.now());
         User librarian = new User();
         librarian.setEmail("librarian@library.com");
-        librarian.setPassword("librarian123");
+        librarian.setPassword(passwordEncoder.encode("librarian123"));
         librarian.setFirstName("Библиотекарь");
         librarian.setLastName("Главный");
+        librarian.setRole("USER");
         librarian.setCreatedAt(LocalDateTime.now());
         userRepository.save(admin);
         userRepository.save(librarian);
-        System.out.println("Тестовые данные загружены успешно!");
+
+
     }
 }

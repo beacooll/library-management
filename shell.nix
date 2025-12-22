@@ -52,10 +52,9 @@ pkgs.mkShell {
         -e "CREATE DATABASE IF NOT EXISTS library_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
     fi
 
-    echo "MySQL готов! База: library_db"
-    echo "Подключение: mysql -u root --socket=$MYSQL_SOCKET"
-    echo "Остановка: kill \$(cat $MYSQL_PIDFILE) && rm -f $MYSQL_PIDFILE $MYSQL_SOCKET"
-    echo "Запуск приложения: mvn spring-boot:run"
+    mvn spring-boot:run
+
+
   '';
 
 }
